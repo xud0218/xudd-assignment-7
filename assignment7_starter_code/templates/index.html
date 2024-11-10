@@ -212,12 +212,15 @@
 
                 {% if plot4 %}
                     <h3>Confidence Interval Results</h3>
-                    <p><strong>{{ confidence_level }}% Confidence Interval for {{ parameter.capitalize() }}:</strong> [{{ ci_lower | round(4) }}, {{ ci_upper | round(4) }}]</p>
-                    <p><strong>Mean Estimate:</strong> {{ mean_estimate | round(4) }}</p>
-                    <p><strong>Confidence Interval Includes True Parameter:</strong> {{ includes_true }}</p>
-                    <img src="{{ url_for('static', filename='plot4.png') }}" alt="Confidence Interval Plot">
+                    <p><strong>Parameter Tested:</strong> {{ parameter | default("parameter") | capitalize }}</p>
+                    <p><strong>Mean Estimate:</strong> {{ mean_estimate | default(0) | round(4) }}</p>
+                    <p><strong>{{ confidence_level | default(0) }}% Confidence Interval for {{ parameter | default("parameter") | capitalize }}:</strong> 
+                        [{{ ci_lower | default(0) | round(4) }}, {{ ci_upper | default(0) | round(4) }}]
+                    </p>
+                    <p><strong>Confidence Interval Includes True Parameter:</strong> {{ 'Yes' if includes_true else 'No' }}</p>
+                    <!-- Cache-busting query to ensure the latest image loads -->
+                    <img src="{{ url_for('static', filename='plot4.png') }}?v={{ random() }}" alt="Confidence Interval Plot">
                 {% endif %}
-
             </div>
         {% endif %}
     </div>
